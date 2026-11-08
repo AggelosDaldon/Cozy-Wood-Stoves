@@ -1,0 +1,1 @@
+{"type":"minecraft:crafting_shaped","pattern":["III","SFS","III"],"key":{"I":{"item":"minecraft:iron_ingot"},"S":{"item":"cozy_wood_stoves:small_stove"},"F":{"item":"minecraft:furnace"}},"result":{"item":"cozy_wood_stoves:large_stove"}}
