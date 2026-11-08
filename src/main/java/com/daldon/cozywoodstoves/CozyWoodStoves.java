@@ -2,6 +2,7 @@ package com.daldon.cozywoodstoves;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -31,7 +32,7 @@ public class CozyWoodStoves {
     public static final String MOD_ID = "cozy_wood_stoves";
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
-    private static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(ForgeRegistries.Keys.CREATIVE_MODE_TABS, MOD_ID);
+    private static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
 
     public static final RegistryObject<Block> SMALL_STOVE = BLOCKS.register("small_stove",
         () -> new Stove(Block.Properties.of().mapColor(MapColor.METAL).strength(3.5f).lightLevel(s -> s.getValue(Stove.LIT) ? 13 : 0)));
