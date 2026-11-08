@@ -1,0 +1,1 @@
+{"type":"minecraft:block","pools":[{"rolls":1,"entries":[{"type":"minecraft:item","name":"cozy_wood_stoves:chimney_pipe"}],"conditions":[{"condition":"minecraft:survives_explosion"}]}]}
