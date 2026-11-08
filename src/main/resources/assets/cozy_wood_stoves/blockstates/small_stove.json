@@ -1,1 +1,292 @@
-{"variants":{"facing=north,lit=false":{"model":"cozy_wood_stoves:block/small_stove_off","y":0},"facing=north,lit=true":{"model":"cozy_wood_stoves:block/small_stove_on","y":0},"facing=east,lit=false":{"model":"cozy_wood_stoves:block/small_stove_off","y":90},"facing=east,lit=true":{"model":"cozy_wood_stoves:block/small_stove_on","y":90},"facing=south,lit=false":{"model":"cozy_wood_stoves:block/small_stove_off","y":180},"facing=south,lit=true":{"model":"cozy_wood_stoves:block/small_stove_on","y":180},"facing=west,lit=false":{"model":"cozy_wood_stoves:block/small_stove_off","y":270},"facing=west,lit=true":{"model":"cozy_wood_stoves:block/small_stove_on","y":270}}}
+{
+  "variants": {
+    "facing=north,fuel=0,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 0
+    },
+    "facing=north,fuel=1,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 0
+    },
+    "facing=north,fuel=2,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 0
+    },
+    "facing=north,fuel=3,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 0
+    },
+    "facing=north,fuel=4,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 0
+    },
+    "facing=north,fuel=5,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 0
+    },
+    "facing=north,fuel=6,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 0
+    },
+    "facing=north,fuel=7,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 0
+    },
+    "facing=north,fuel=8,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 0
+    },
+    "facing=north,fuel=0,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 0
+    },
+    "facing=north,fuel=1,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 0
+    },
+    "facing=north,fuel=2,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 0
+    },
+    "facing=north,fuel=3,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 0
+    },
+    "facing=north,fuel=4,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 0
+    },
+    "facing=north,fuel=5,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 0
+    },
+    "facing=north,fuel=6,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 0
+    },
+    "facing=north,fuel=7,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 0
+    },
+    "facing=north,fuel=8,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 0
+    },
+    "facing=east,fuel=0,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 90
+    },
+    "facing=east,fuel=1,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 90
+    },
+    "facing=east,fuel=2,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 90
+    },
+    "facing=east,fuel=3,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 90
+    },
+    "facing=east,fuel=4,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 90
+    },
+    "facing=east,fuel=5,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 90
+    },
+    "facing=east,fuel=6,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 90
+    },
+    "facing=east,fuel=7,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 90
+    },
+    "facing=east,fuel=8,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 90
+    },
+    "facing=east,fuel=0,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 90
+    },
+    "facing=east,fuel=1,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 90
+    },
+    "facing=east,fuel=2,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 90
+    },
+    "facing=east,fuel=3,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 90
+    },
+    "facing=east,fuel=4,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 90
+    },
+    "facing=east,fuel=5,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 90
+    },
+    "facing=east,fuel=6,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 90
+    },
+    "facing=east,fuel=7,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 90
+    },
+    "facing=east,fuel=8,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 90
+    },
+    "facing=south,fuel=0,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 180
+    },
+    "facing=south,fuel=1,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 180
+    },
+    "facing=south,fuel=2,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 180
+    },
+    "facing=south,fuel=3,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 180
+    },
+    "facing=south,fuel=4,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 180
+    },
+    "facing=south,fuel=5,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 180
+    },
+    "facing=south,fuel=6,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 180
+    },
+    "facing=south,fuel=7,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 180
+    },
+    "facing=south,fuel=8,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 180
+    },
+    "facing=south,fuel=0,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 180
+    },
+    "facing=south,fuel=1,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 180
+    },
+    "facing=south,fuel=2,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 180
+    },
+    "facing=south,fuel=3,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 180
+    },
+    "facing=south,fuel=4,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 180
+    },
+    "facing=south,fuel=5,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 180
+    },
+    "facing=south,fuel=6,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 180
+    },
+    "facing=south,fuel=7,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 180
+    },
+    "facing=south,fuel=8,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 180
+    },
+    "facing=west,fuel=0,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 270
+    },
+    "facing=west,fuel=1,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 270
+    },
+    "facing=west,fuel=2,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 270
+    },
+    "facing=west,fuel=3,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 270
+    },
+    "facing=west,fuel=4,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 270
+    },
+    "facing=west,fuel=5,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 270
+    },
+    "facing=west,fuel=6,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 270
+    },
+    "facing=west,fuel=7,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 270
+    },
+    "facing=west,fuel=8,lit=false": {
+      "model": "cozy_wood_stoves:block/small_stove_off",
+      "y": 270
+    },
+    "facing=west,fuel=0,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 270
+    },
+    "facing=west,fuel=1,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 270
+    },
+    "facing=west,fuel=2,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 270
+    },
+    "facing=west,fuel=3,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 270
+    },
+    "facing=west,fuel=4,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 270
+    },
+    "facing=west,fuel=5,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 270
+    },
+    "facing=west,fuel=6,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 270
+    },
+    "facing=west,fuel=7,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 270
+    },
+    "facing=west,fuel=8,lit=true": {
+      "model": "cozy_wood_stoves:block/small_stove_on",
+      "y": 270
+    }
+  }
+}
