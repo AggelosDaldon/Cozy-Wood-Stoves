@@ -1,9 +1,10 @@
-name: Build Forge Mod
+name: Compile grill integration (unified Functional Stoves)
 on:
   push:
     branches: [main]
   pull_request:
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,9 +17,22 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.8'
-      - run: gradle build --no-daemon --stacktrace
+      - name: Compile Forge integration classes
+        run: gradle classes --no-daemon --stacktrace
+      - name: Check original mod binary exists
+        id: original
+        run: |
+          if test -f original/functional_stoves-1.0-SNAPSHOT.jar; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Original JAR absent; only source compilation was checked. No usable mod JAR will be uploaded."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Build single original-plus-grill mod
+        if: steps.original.outputs.present == 'true'
+        run: gradle jar --no-daemon --stacktrace
       - uses: actions/upload-artifact@v4
-        if: success()
+        if: steps.original.outputs.present == 'true'
         with:
-          name: cozy-wood-stoves-dev
-          path: build/libs/*.jar
+          name: functional-stoves-with-grill
+          path: build/libs/functional_stoves-1.0-SNAPSHOT-with-grill.jar
