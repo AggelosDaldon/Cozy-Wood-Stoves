@@ -1,74 +1,87 @@
 package com.daldon.cozywoodstoves;
 
-import com.daldon.cozywoodstoves.grill.GrillRenderer;
+// No @Mod class here. The original FunctionalStoves class is preserved byte-for-byte
+// inside the unified JAR. RegisterEvents below are picked up by the Forge mod scanner.
+
 import com.daldon.cozywoodstoves.grill.StoveGrillBlock;
+import com.daldon.cozywoodstoves.grill.GrillRenderer;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.RegisterEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
-@Mod(CozyWoodStoves.MOD_ID)
-public class CozyWoodStoves {
-    public static final String MOD_ID = "cozy_wood_stoves";
-    private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
-    private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
-            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MOD_ID);
-    private static final DeferredRegister<CreativeModeTab> TABS =
-            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
+public final class CozyWoodStoves {
+    public static final String MOD_ID = "functional_stoves";
+    public static final ResourceLocation GRILL_ID = new ResourceLocation(MOD_ID, "stove_grill");
+    public static Block GRILL_BLOCK;
+    public static Item GRILL_ITEM;
+    public static BlockEntityType<StoveGrillBlock.GrillEntity> GRILL_TYPE;
 
-    // This addon does not replace or re-register any Functional Stoves blocks.
-    public static final RegistryObject<Block> STOVE_GRILL = BLOCKS.register("stove_grill", StoveGrillBlock::new);
-    public static final RegistryObject<Item> GRILL_ITEM = ITEMS.register("stove_grill",
-            () -> new BlockItem(STOVE_GRILL.get(), new Item.Properties()));
-    public static final RegistryObject<BlockEntityType<StoveGrillBlock.GrillEntity>> GRILL_ENTITY =
-            BLOCK_ENTITIES.register("stove_grill",
-                    () -> BlockEntityType.Builder.of(StoveGrillBlock.GrillEntity::new, STOVE_GRILL.get()).build(null));
+    private CozyWoodStoves() {}
 
-    public static final RegistryObject<CreativeModeTab> TAB = TABS.register("main", () ->
-            CreativeModeTab.builder().title(Component.literal("Stove Cooking Grate"))
-                    .icon(() -> new ItemStack(GRILL_ITEM.get()))
-                    .displayItems((parameters, output) -> output.accept(GRILL_ITEM.get())).build());
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static final class Registration {
+        private Registration() {}
 
-    public CozyWoodStoves() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        BLOCKS.register(bus);
-        ITEMS.register(bus);
-        BLOCK_ENTITIES.register(bus);
-        TABS.register(bus);
-        MinecraftForge.EVENT_BUS.register(this);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(ClientOnly::registerRenderers));
-    }
+        @SubscribeEvent
+        public static void register(RegisterEvent event) {
+            event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
+                GRILL_BLOCK = new StoveGrillBlock();
+                helper.register(GRILL_ID, GRILL_BLOCK);
+            });
+            event.register(ForgeRegistries.Keys.ITEMS, helper -> {
+                GRILL_ITEM = new BlockItem(GRILL_BLOCK, new Item.Properties());
+                helper.register(GRILL_ID, GRILL_ITEM);
+            });
+            event.register(ForgeRegistries.Keys.BLOCK_ENTITY_TYPES, helper -> {
+                GRILL_TYPE = BlockEntityType.Builder.of(
+                        StoveGrillBlock.GrillEntity::new, GRILL_BLOCK).build(null);
+                helper.register(GRILL_ID, GRILL_TYPE);
+            });
+        }
 
-    @net.minecraftforge.eventbus.api.SubscribeEvent
-    public void onFoodFinished(LivingEntityUseItemEvent.Finish event) {
-        if (!(event.getEntity() instanceof Player player) || player.level().isClientSide) return;
-        ItemStack consumed = event.getItem();
-        if (consumed.isEdible() && consumed.hasTag() && consumed.getTag().getBoolean("CozyGrillBonus")) {
-            // Eat 3 extra food points and 3 additional saturation points.
-            player.getFoodData().eat(3, 0.5f);
+        @SubscribeEvent
+        public static void addCreativeItem(BuildCreativeModeTabContentsEvent event) {
+            if (event.getTabKey().equals(CreativeModeTabs.FUNCTIONAL_BLOCKS)) {
+                event.accept(GRILL_ITEM);
+            }
         }
     }
 
-    private static class ClientOnly {
-        static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerBlockEntityRenderer(GRILL_ENTITY.get(), GrillRenderer::new);
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    public static final class Client {
+        private Client() {}
+        @SubscribeEvent
+        public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(GRILL_TYPE, GrillRenderer::new);
+        }
+    }
+
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public static final class Gameplay {
+        private Gameplay() {}
+        @SubscribeEvent
+        public static void onFoodEaten(LivingEntityUseItemEvent.Finish event) {
+            if (!(event.getEntity() instanceof Player player) || player.level().isClientSide) return;
+            ItemStack stack = event.getItem();
+            if (stack.isEdible() && stack.hasTag() && stack.getTag().getBoolean("CozyGrillBonus")) {
+                // FoodData.eat(food, saturationModifier):
+                // +3 hunger, +3 actual saturation (=3*2*0.5), subject to vanilla caps.
+                player.getFoodData().eat(3, 0.5f);
+            }
         }
     }
 }
