@@ -43,7 +43,7 @@ public class StoveGrillBlock extends BaseEntityBlock {
     public static boolean onLargeStove(BlockState state) {
         ResourceLocation id = ForgeRegistries.BLOCKS.getKey(state.getBlock());
         return id != null && id.getPath().equals("large_stove")
-                && (id.getNamespace().equals("functional_stoves") || id.getNamespace().equals(CozyWoodStoves.MOD_ID));
+                && (id.getNamespace().equals("functional_stoves"));
     }
     @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return onLargeStove(level.getBlockState(pos.below()));
@@ -52,7 +52,7 @@ public class StoveGrillBlock extends BaseEntityBlock {
     @Override public RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
     @Nullable @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) { return new GrillEntity(pos, state); }
     @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, CozyWoodStoves.GRILL_ENTITY.get(), GrillEntity::tick);
+        return level.isClientSide ? null : createTickerHelper(type, CozyWoodStoves.GRILL_TYPE, GrillEntity::tick);
     }
     @Override public void neighborChanged(BlockState state, Level level, BlockPos pos,
         net.minecraft.world.level.block.Block changed, BlockPos changedPos, boolean moving) {
@@ -106,7 +106,7 @@ public class StoveGrillBlock extends BaseEntityBlock {
         public final boolean[] ready = new boolean[6];
         private int syncCooldown;
 
-        public GrillEntity(BlockPos pos, BlockState state) { super(CozyWoodStoves.GRILL_ENTITY.get(), pos, state); }
+        public GrillEntity(BlockPos pos, BlockState state) { super(CozyWoodStoves.GRILL_TYPE, pos, state); }
         public void clear(int slot) {
             food.set(slot, ItemStack.EMPTY); progress[slot] = 0; ready[slot] = false; changedAndSync();
         }
