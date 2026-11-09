@@ -5,9 +5,9 @@ license="All Rights Reserved"
 [[mods]]
 modId="cozy_wood_stoves"
 version="${mod_version}"
-displayName="Cozy Wood Stoves"
+displayName="Functional Stoves Cooking Grate"
 authors="AggelosDaldon"
-description='''Cozy cast-iron wood stoves for Minecraft 1.20.1. Independent work in progress.'''
+description='''Six-slot cooking grate addon for the original Functional Stoves 1.0-SNAPSHOT. Does not modify existing stoves.'''
 
 [[dependencies.cozy_wood_stoves]]
 modId="forge"
@@ -21,4 +21,11 @@ modId="minecraft"
 mandatory=true
 versionRange="[1.20.1,1.20.2)"
 ordering="NONE"
+side="BOTH"
+
+[[dependencies.cozy_wood_stoves]]
+modId="functional_stoves"
+mandatory=true
+versionRange="[1.0-SNAPSHOT,)"
+ordering="AFTER"
 side="BOTH"

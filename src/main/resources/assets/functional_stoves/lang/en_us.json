@@ -1,0 +1,19 @@
+{
+  "block.functional_stoves.chimney_elbow": "Chimney Elbow",
+  "block.functional_stoves.chimney_pipe": "Straight Chimney Pipe",
+  "block.functional_stoves.large_stove": "Large Stove",
+  "block.functional_stoves.roof_chimney": "Roof Chimney Outlet",
+  "block.functional_stoves.small_stove": "Small Stove",
+  "block.functional_stoves.stove_grill": "Cast Iron Plate",
+  "itemGroup.functional_stoves": "Functional Stoves",
+  "message.functional_stoves.charcoal_collected": "Collected %d charcoal.",
+  "message.functional_stoves.door_closed_fuel": "Open the stove door to add fuel.",
+  "message.functional_stoves.extinguished": "Fire extinguished.",
+  "message.functional_stoves.fuel_added": "Fuel added! (~%d min burn time)",
+  "message.functional_stoves.fuel_full": "The stove is full of fuel.",
+  "message.functional_stoves.ignited": "Stove ignited.",
+  "message.functional_stoves.no_fuel": "The stove has no fuel!",
+  "block.functional_stoves.wood_pile": "Wood Pile",
+  "key.functional_stoves.stack_wood": "Stack Wood (hold + right-click)",
+  "key.categories.functional_stoves": "Functional Stoves"
+}
