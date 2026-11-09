@@ -23,9 +23,9 @@ public class GrillRenderer implements BlockEntityRenderer<StoveGrillBlock.GrillE
             pose.pushPose();
             // Plate surface is 4.6px high; foods stand just above it.
             // Three evenly separated items in front, three behind.
-            pose.translate(0.25+(i%3)*0.25,0.335,0.34+(i/3)*0.30);
-            pose.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
-            pose.scale(0.235f,0.235f,0.235f);
+            pose.translate(0.25+(i%3)*0.25,0.055,0.34+(i/3)*0.30);
+            pose.mulPose(new org.joml.Quaternionf().rotationXYZ((float)Math.PI / 2f, 0f, 0f));
+            pose.scale(-0.30f,0.30f,0.30f);
             itemRenderer.renderStatic(stack,ItemDisplayContext.FIXED,light,
                     OverlayTexture.NO_OVERLAY,pose,buffers,grill.getLevel(),
                     (int)grill.getBlockPos().asLong()+i);
