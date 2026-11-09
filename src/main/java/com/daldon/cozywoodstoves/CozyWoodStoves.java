@@ -1,6 +1,15 @@
 package com.daldon.cozywoodstoves;
 
 import net.minecraft.core.BlockPos;
+import com.daldon.cozywoodstoves.grill.StoveGrillBlock;
+import com.daldon.cozywoodstoves.grill.GrillRenderer;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.particles.ParticleTypes;
@@ -36,6 +45,7 @@ public class CozyWoodStoves {
     public static final String MOD_ID = "cozy_wood_stoves";
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
+    private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MOD_ID);
     private static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
 
     public static final RegistryObject<Block> SMALL_STOVE = BLOCKS.register("small_stove",
@@ -49,9 +59,14 @@ public class CozyWoodStoves {
     public static final RegistryObject<Block> ROOF_CHIMNEY = BLOCKS.register("roof_chimney",
         () -> new Block(Block.Properties.of().mapColor(MapColor.METAL).strength(3f)));
 
+    public static final RegistryObject<Block> STOVE_GRILL = BLOCKS.register("stove_grill", StoveGrillBlock::new);
+    public static final RegistryObject<BlockEntityType<StoveGrillBlock.GrillEntity>> GRILL_ENTITY =
+        BLOCK_ENTITIES.register("stove_grill", () -> BlockEntityType.Builder.of(StoveGrillBlock.GrillEntity::new, STOVE_GRILL.get()).build(null));
+
     private static RegistryObject<Item> blockItem(String name, Supplier<? extends Block> block) {
         return ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
+    public static final RegistryObject<Item> GRILL_ITEM = blockItem("stove_grill", STOVE_GRILL);
     public static final RegistryObject<Item> SMALL_ITEM = blockItem("small_stove", SMALL_STOVE);
     public static final RegistryObject<Item> LARGE_ITEM = blockItem("large_stove", LARGE_STOVE);
     public static final RegistryObject<Item> PIPE_ITEM = blockItem("chimney_pipe", CHIMNEY_PIPE);
@@ -63,12 +78,29 @@ public class CozyWoodStoves {
             .icon(() -> new ItemStack(SMALL_ITEM.get()))
             .displayItems((params, output) -> {
                 output.accept(SMALL_ITEM.get()); output.accept(LARGE_ITEM.get());
-                output.accept(PIPE_ITEM.get()); output.accept(ELBOW_ITEM.get()); output.accept(ROOF_ITEM.get());
+                output.accept(GRILL_ITEM.get()); output.accept(PIPE_ITEM.get()); output.accept(ELBOW_ITEM.get()); output.accept(ROOF_ITEM.get());
             }).build());
 
     public CozyWoodStoves() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        BLOCKS.register(bus); ITEMS.register(bus); TABS.register(bus);
+        BLOCKS.register(bus); ITEMS.register(bus); BLOCK_ENTITIES.register(bus); TABS.register(bus);
+        MinecraftForge.EVENT_BUS.register(this);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(ClientOnly::registerRenderers));
+    }
+
+    @SubscribeEvent public void finishedFood(LivingEntityUseItemEvent.Finish event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+        ItemStack food = event.getItem();
+        if (food.hasTag() && food.getTag().getBoolean("CozyGrillBonus")
+                && food.isEdible()) {
+            // Three additional hunger points and exactly three additional saturation points.
+            player.getFoodData().eat(3, 0.5F);
+        }
+    }
+    private static class ClientOnly {
+        static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(GRILL_ENTITY.get(), GrillRenderer::new);
+        }
     }
 
     // All shapes match the visible 16-unit model bounds rather than full-block cubes.
