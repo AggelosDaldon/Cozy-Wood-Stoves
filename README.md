@@ -1,34 +1,34 @@
-# Cozy Wood Stoves
+# Functional Stoves — Six-Slot Cooking Grate (experimental)
 
-A new, independently developed Minecraft Forge 1.20.1 project for cozy, rustic wood stoves.
+This **feature branch** produces a separate Forge 1.20.1 addon for the user-supplied
+**Functional Stoves 1.0-SNAPSHOT** JAR. It does not reproduce, redistribute, or modify
+the original mod's assets or classes. Keep the original JAR installed; install the JAR
+built from this branch alongside it.
 
-## Status
+## Feature
 
-Early project scaffold. **Not yet a functional replacement for Functional Stoves.**
-The project is being prepared for an independent implementation. No decompiled third-party Java source has been copied into this repository.
+- Place a thin cast-iron grate in the air block directly **above** an original
+  `functional_stoves:large_stove`. The original stove remains unchanged.
+- Six separate slots visibly render the food on the grate.
+- Right-click with a campfire-cookable ingredient to place one item in the next available slot.
+- Items cook only while the underlying stove's LIT property is true.
+- When a slot finishes, the rendered stack becomes the recipe output and remains there.
+- Right-click with an **empty hand** to take the first cooked slot.
+- Cooked results are tagged with `CozyGrillBonus`; eating them gives 3 additional
+  hunger points and 3 additional saturation points.
+- Inputs and outputs are persisted in the block entity; breaking the grate drops its contents.
+- Crafting recipe: 6 iron ingots + 2 iron bars.
 
-## Planned features
+## Build
 
-- Small cast-iron stove
-- Large two-part stove
-- Chimney pipe, elbow and roof chimney
-- Wood-fuel interactions, fire and heating
-- Rustic vintage black/charcoal visual style
-- 16x16 pixel-art textures and animated fire
+Minecraft 1.20.1 / Forge 47.4.0 / Java 17. GitHub Actions builds the branch from a pull request and uploads the resulting JAR under workflow artifacts.
 
-## Development
+## Known limits / testing
 
-- Minecraft 1.20.1
-- Forge 47.4.0
-- Java 17
-- Gradle / ForgeGradle
-
-This repository is an original project. The supplied Functional Stoves archive is marked **All Rights Reserved**, so its decompiled code and other original assets must not be republished without permission. Any similar behavior must be implemented independently.
-
-### Building
-
-This repository contains initial build configuration and an entrypoint. It is not feature complete. Use Java 17 and Gradle 8.x, or add a verified Gradle wrapper for local builds.
-
-## Art
-
-A separate, independently redrawn resource pack is available from the project conversation; it has not yet been committed as PNG assets.
+- This is an addon, **not a replacement for Functional Stoves**. Do not remove the
+  original Functional Stoves JAR.
+- The original mod's Large Stove is a multi-part block; check the position of the grate
+  and rendering against both large-stove halves in-game.
+- This feature is work in progress until tested on a client and dedicated server.
+- The original repository's unused placeholder stove assets remain in the source tree,
+  but the addon does not register the placeholder blocks.
