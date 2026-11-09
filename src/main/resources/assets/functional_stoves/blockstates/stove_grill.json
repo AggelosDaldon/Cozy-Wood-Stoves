@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "functional_stoves:block/stove_grill"
+    }
+  }
+}
