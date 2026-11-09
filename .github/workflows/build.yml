@@ -28,6 +28,10 @@ jobs:
           base64 -w0 grill-compiled-patch.zip
           echo
           echo "END_GRILL_PATCH_BASE64"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compiled-grill-integration
+          path: build/grill-compiled-patch.zip
       - name: Check original mod binary exists
         id: original
         run: |
