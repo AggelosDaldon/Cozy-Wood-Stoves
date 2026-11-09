@@ -58,3 +58,15 @@ tasks.named('jar', Jar) {
             'Implementation-Version': '1.0-SNAPSHOT'
     }
 }
+
+ // Runtime patch only: ForgeGradle MUST reobfuscate Minecraft method references.
+ // The original compiled JAR stays outside this task and will be merged afterward.
+ tasks.register('grillPatchJar', Jar) {
+     archiveFileName = 'grill-runtime-patch.jar'
+     destinationDirectory = layout.buildDirectory.dir('patch')
+     from sourceSets.main.output
+     exclude 'META-INF/mods.toml', 'assets/cozy_wood_stoves/**', 'data/cozy_wood_stoves/**', 'pack.mcmeta'
+ }
+ reobf {
+     grillPatchJar {}
+ }
