@@ -58,7 +58,7 @@ public class CozyWoodStoves {
 
     @net.minecraftforge.eventbus.api.SubscribeEvent
     public void onFoodFinished(LivingEntityUseItemEvent.Finish event) {
-        if (!(event.getEntity() instanceof Player player)) return;
+        if (!(event.getEntity() instanceof Player player) || player.level().isClientSide) return;
         ItemStack consumed = event.getItem();
         if (consumed.isEdible() && consumed.hasTag() && consumed.getTag().getBoolean("CozyGrillBonus")) {
             // Eat 3 extra food points and 3 additional saturation points.
