@@ -5,6 +5,10 @@ package com.daldon.cozywoodstoves;
 
 import com.daldon.cozywoodstoves.grill.StoveGrillBlock;
 import com.daldon.cozywoodstoves.grill.GrillRenderer;
+import com.daldon.cozywoodstoves.wood.WoodPileBlock;
+import com.daldon.cozywoodstoves.wood.WoodPileRenderer;
+import com.daldon.cozywoodstoves.wood.WoodPileNetwork;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -29,6 +33,9 @@ public final class CozyWoodStoves {
     public static Block GRILL_BLOCK;
     public static Item GRILL_ITEM;
     public static BlockEntityType<StoveGrillBlock.GrillEntity> GRILL_TYPE;
+    public static final ResourceLocation WOOD_PILE_ID = new ResourceLocation(MOD_ID,"wood_pile");
+    public static Block WOOD_PILE_BLOCK;
+    public static BlockEntityType<WoodPileBlock.PileEntity> WOOD_PILE_TYPE;
 
     private CozyWoodStoves() {}
 
@@ -42,6 +49,10 @@ public final class CozyWoodStoves {
                 GRILL_BLOCK = new StoveGrillBlock();
                 helper.register(GRILL_ID, GRILL_BLOCK);
             });
+            event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
+                WOOD_PILE_BLOCK = new WoodPileBlock();
+                helper.register(WOOD_PILE_ID, WOOD_PILE_BLOCK);
+            });
             event.register(ForgeRegistries.Keys.ITEMS, helper -> {
                 GRILL_ITEM = new BlockItem(GRILL_BLOCK, new Item.Properties());
                 helper.register(GRILL_ID, GRILL_ITEM);
@@ -50,12 +61,20 @@ public final class CozyWoodStoves {
                 GRILL_TYPE = BlockEntityType.Builder.of(
                         StoveGrillBlock.GrillEntity::new, GRILL_BLOCK).build(null);
                 helper.register(GRILL_ID, GRILL_TYPE);
+                WOOD_PILE_TYPE = BlockEntityType.Builder.of(WoodPileBlock.PileEntity::new,WOOD_PILE_BLOCK).build(null);
+                helper.register(WOOD_PILE_ID,WOOD_PILE_TYPE);
             });
         }
 
         @SubscribeEvent
+        public static void setupNetworking(FMLCommonSetupEvent event) {
+            event.enqueueWork(WoodPileNetwork::register);
+        }
+
+        @SubscribeEvent
         public static void addCreativeItem(BuildCreativeModeTabContentsEvent event) {
-            if (event.getTabKey().equals(CreativeModeTabs.FUNCTIONAL_BLOCKS)) {
+            if (event.getTabKey().equals(CreativeModeTabs.FUNCTIONAL_BLOCKS)
+                    || event.getTabKey().location().getNamespace().equals(MOD_ID)) {
                 event.accept(GRILL_ITEM);
             }
         }
@@ -67,6 +86,7 @@ public final class CozyWoodStoves {
         @SubscribeEvent
         public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(GRILL_TYPE, GrillRenderer::new);
+            event.registerBlockEntityRenderer(WOOD_PILE_TYPE,WoodPileRenderer::new);
         }
     }
 
