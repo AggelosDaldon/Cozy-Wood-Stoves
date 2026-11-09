@@ -4,6 +4,8 @@ import com.daldon.cozywoodstoves.CozyWoodStoves;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -37,7 +39,7 @@ import java.util.Optional;
 
 /** Thin cooking grate placed in the block space directly above either large stove. */
 public class StoveGrillBlock extends BaseEntityBlock {
-    private static final VoxelShape SHAPE = box(1, 0, 1, 15, 2, 15);
+    private static final VoxelShape SHAPE = box(1, 0, 1, 15, 5, 15);
     public StoveGrillBlock() { super(Properties.of().mapColor(MapColor.METAL).strength(2.5f).noOcclusion()); }
 
     public static boolean onLargeStove(BlockState state) {
@@ -50,6 +52,21 @@ public class StoveGrillBlock extends BaseEntityBlock {
     }
     @Override public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) { return SHAPE; }
     @Override public RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
+    @Override public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (random.nextInt(14)!=0) return; // subtle smoke, far less than vanilla campfire
+        if (!(level.getBlockEntity(pos) instanceof GrillEntity grill)) return;
+        BlockState stove=level.getBlockState(pos.below());
+        if (!onLargeStove(stove) || !stove.hasProperty(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT)
+                || !stove.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT)) return;
+        for(int i=0;i<6;i++) {
+            if(grill.food.get(i).isEmpty() || grill.ready[i]) continue;
+            double x=pos.getX()+0.25+(i%3)*0.25;
+            double z=pos.getZ()+0.34+(i/3)*0.30;
+            level.addParticle(ParticleTypes.SMOKE,x,pos.getY()+0.39,z,0,0.015,0);
+            return;
+        }
+    }
+
     @Nullable @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) { return new GrillEntity(pos, state); }
     @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide ? null : createTickerHelper(type, CozyWoodStoves.GRILL_TYPE, GrillEntity::tick);
