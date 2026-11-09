@@ -5,42 +5,56 @@ plugins {
 
 version = mod_version
 group = mod_group_id
-
-base {
-    archivesName = mod_id
-}
+base { archivesName = 'functional_stoves' }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
 minecraft {
     mappings channel: 'official', version: minecraft_version
     runs {
         client {
             workingDirectory project.file('run')
-            mods { cozy_wood_stoves { source sourceSets.main } }
+            mods { functional_stoves { source sourceSets.main } }
         }
         server {
             workingDirectory project.file('run')
             args '--nogui'
-            mods { cozy_wood_stoves { source sourceSets.main } }
+            mods { functional_stoves { source sourceSets.main } }
         }
     }
 }
 
-repositories {
-    mavenCentral()
+repositories { mavenCentral() }
+dependencies { minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}" }
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+// The uploaded ORIGINAL Functional Stoves binary is required to make the final
+// one-mod JAR. DO NOT replace this with a separate addon mod or change mod ID.
+def originalJar = file('original/functional_stoves-1.0-SNAPSHOT.jar')
+processResources {
+    exclude 'META-INF/mods.toml'       // preserve the original metadata
+    exclude 'assets/cozy_wood_stoves/**'
+    exclude 'data/cozy_wood_stoves/**'
+    exclude 'pack.mcmeta'              // preserve the original pack metadata
 }
 
-dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-}
-
-tasks.withType(ProcessResources).configureEach {
-    filesMatching('META-INF/mods.toml') {
-        expand 'mod_version': mod_version
+tasks.named('jar', Jar) {
+    archiveFileName = 'functional_stoves-1.0-SNAPSHOT-with-grill.jar'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    doFirst {
+        if (!originalJar.exists()) {
+            throw new GradleException("Missing original/functional_stoves-1.0-SNAPSHOT.jar — cannot build a valid unified mod.")
+        }
+    }
+    // Original assets + original mod classes + metadata all stay inside this JAR.
+    from({ zipTree(originalJar) }) {
+        exclude 'META-INF/MANIFEST.MF', 'META-INF/*.SF', 'META-INF/*.RSA', 'META-INF/*.DSA'
+        // A merged English language file is included among new compiled resources.
+        exclude 'assets/functional_stoves/lang/en_us.json'
+    }
+    manifest {
+        attributes 'MixinConfigs': 'functional_stoves.mixins.json',
+            'Implementation-Title': 'functional-stoves',
+            'Implementation-Version': '1.0-SNAPSHOT'
     }
 }
