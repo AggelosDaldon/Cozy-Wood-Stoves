@@ -17,12 +17,12 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.8'
-      - name: Compile Forge integration classes
-        run: gradle classes --no-daemon --stacktrace
+      - name: Compile and reobfuscate Forge integration classes
+        run: gradle reobfGrillPatchJar --no-daemon --stacktrace
       - name: Emit temporary compiled-patch checksum and encoded patch for local merge verification
         run: |
           cd build
-          jar cf grill-compiled-patch.zip -C classes/java/main . -C resources/main .
+          cp patch/grill-runtime-patch.jar grill-compiled-patch.zip
           sha256sum grill-compiled-patch.zip
           echo "BEGIN_GRILL_PATCH_BASE64"
           base64 -w0 grill-compiled-patch.zip
@@ -30,7 +30,7 @@ jobs:
           echo "END_GRILL_PATCH_BASE64"
       - uses: actions/upload-artifact@v4
         with:
-          name: compiled-grill-integration
+          name: reobfuscated-grill-runtime-patch
           path: build/grill-compiled-patch.zip
       - name: Check original mod binary exists
         id: original
